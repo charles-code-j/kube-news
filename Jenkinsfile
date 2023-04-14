@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://hub.docker.com/", "docker") {
-                        docker.push("charleszt/kube-news:${env.BUILD_NUMBER}");
+                        dockerapp.push(${env.BUILD_NUMBER});
                     }
                 }
             }
