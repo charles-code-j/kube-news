@@ -10,5 +10,15 @@ pipeline {
                 }
             }
         }
+
+        stage ("Send Image for Docker Hub") {
+            steps {
+                script {
+                    docker.withRegistry("https://hub.docker.com/", "docker") {
+                        docker.push("charleszt/kube-news:${env.BUILD_NUMBER}");
+                    }
+                }
+            }
+        }
     }
 }
