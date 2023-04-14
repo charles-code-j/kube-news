@@ -16,6 +16,17 @@ pipeline {
                 script {
                     docker.withRegistry("https://registry.hub.docker.com", "docker") {
                         dockerapp.push("${env.BUILD_NUMBER}");
+                        dockerapp.push("latest");
+                    }
+                }
+            }
+        }
+
+        stage ("Deploy") {
+            steps {
+                script {
+                    withKubeConfig([credentialsId: "kubeconfig"]) {
+                        sh "kubectl apply -f ./src/kubernetes/"
                     }
                 }
             }
