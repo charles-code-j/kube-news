@@ -24,11 +24,9 @@ pipeline {
 
         stage ("Deploy") {
             steps {
-                script {
                     withKubeConfig([credentialsId: "kubeconfig"]) {
                         sh "kubectl apply -f ./src/kubernetes/"
                     }
-                }
             }
         }
     }
