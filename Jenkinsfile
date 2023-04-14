@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("https://registry.hub.docker.com", "docker") {
-                        dockerapp.push(${env.BUILD_NUMBER});
+                        dockerapp.push("${env.BUILD_NUMBER}");
                     }
                 }
             }
