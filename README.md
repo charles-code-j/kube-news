@@ -14,4 +14,4 @@ DB_PASSWORD => Senha do usuário do banco de dados.
 
 DB_HOST => Endereço do banco de dados.
 
-[![Technical Debt](http://168.75.70.245:9000/api/project_badges/measure?project=sonar-kube-news&metric=sqale_index&token=sqb_67a6ec5fae2122c4595b35b9604e64c239e45485)](http://168.75.70.245:9000/dashboard?id=sonar-kube-news)
+[![Quality gate](http://168.75.70.245:9000/api/project_badges/quality_gate?project=sonar-kube-news&token=sqb_67a6ec5fae2122c4595b35b9604e64c239e45485)](http://168.75.70.245:9000/dashboard?id=sonar-kube-news)
