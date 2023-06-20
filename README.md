@@ -13,5 +13,3 @@ DB_USERNAME => Usuário do banco de dados.
 DB_PASSWORD => Senha do usuário do banco de dados.
 
 DB_HOST => Endereço do banco de dados.
-
-[![Duplicated Lines (%)](http://35.196.228.199:9000/api/project_badges/measure?project=sonar-kube-news&metric=duplicated_lines_density)](http://35.196.228.199:9000/dashboard?id=sonar-kube-news)
