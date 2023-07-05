@@ -27,12 +27,14 @@ jobs:
           command: 'compute instance list-vnics --compartment-id ocid1.tenancy.oc1..aaaaaaaanoq6tcxxpyffwodkmyybcjl6at5qzti6oipnb7p2dib3mb4i2txa'
           query: 'data[*].{ip: \"public-ip\"}'
       - name: List the display name and shape of the instances in my compartment
+        env:
+          SONAR_HOST_URL: ""
         run: |
           SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000") && echo $SONAR_HOST_URL
+      - name: ip
+        run: |
+            echo $SONAR_HOST_URL
 #       - uses: sonarsource/sonarqube-scan-action@master          
 #         env:
 #            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 #            SONAR_HOST_URL:  $SONAR_HOST_URL
-      - name: ip
-        run: |
-         echo $SONAR_HOST_URL
