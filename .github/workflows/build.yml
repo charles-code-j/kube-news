@@ -22,10 +22,10 @@ jobs:
           fetch-depth: 0
       - name: comput
         uses: oracle-actions/run-oci-cli-command@v1.1.1
-        id: find-compartment-id
+        id: find-instances
         with:
-          command: 'iam compartment list --compartment-id-in-subtree=true'
-          query: "data[?name=='testing'].id"
+          command: 'compute instance list --instance-id ocid1.instance.oc1.sa-saopaulo-1.antxeljrnb76erycttiyh6dtx5drbhhvtaw7t7v4ixyj56ybpvjcqpc2ow5q'
+          query: 'data[*].{name: \"display-name\", shape: shape}'
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
