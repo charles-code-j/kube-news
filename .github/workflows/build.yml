@@ -22,6 +22,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: teste
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
           SONAR_HOST_URL2=http://168.75.70.245:9000/projects
           gh secret set SONAR_HOST_URL2 --body "$SONAR_HOST_URL2" 
