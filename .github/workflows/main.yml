@@ -32,13 +32,3 @@ jobs:
           gh secret set SONAR_HOST_URL --body "$SONAR_HOST_URL" 
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-  sonar:
-      name: sonar
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-      - uses: sonarsource/sonarqube-scan-action@master          
-        env:
-           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-           SONAR_HOST_URL:  ${{ secrets.SONAR_HOST_URL }}
