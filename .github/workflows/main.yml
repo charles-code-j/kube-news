@@ -24,7 +24,7 @@ jobs:
         uses: oracle-actions/run-oci-cli-command@v1.1.1
         id: find-instances
         with:
-          command: 'compute instance list-vnics --compartment-id ocid1.tenancy.oc1..aaaaaaaanoq6tcxxpyffwodkmyybcjl6at5qzti6oipnb7p2dib3mb4i2txa'
+          command: 'compute instance list-vnics --compartment-id ${{ secrets.OCI_CLI_TENANCY }}'
           query: 'data[*].{ip: \"public-ip\"}'
       - name: List the display name and shape of the instances in my compartment
         run: |
