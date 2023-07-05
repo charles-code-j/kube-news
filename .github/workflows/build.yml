@@ -23,6 +23,7 @@ jobs:
           fetch-depth: 0
       - name: teste
         run: |
+          SONAR_HOST_URL=http://168.75.70.245:9000/projects
           echo $SONAR_HOST_URL
             
 #       - name: pc
