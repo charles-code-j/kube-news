@@ -21,30 +21,25 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: teste
+      - name: Definindo nova URL para ser consumida
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
           SONAR_HOST_URL2=http://168.75.70.245:9000/projects
           gh secret set SONAR_HOST_URL2 --body "$SONAR_HOST_URL2" 
-      - name: teste 2
+      - name: pc
+        uses: oracle-actions/run-oci-cli-command@v1.1.1
+        id: find-instances
+        with:
+          command: 'compute instance list-vnics --compartment-id ocid1.tenancy.oc1..aaaaaaaanoq6tcxxpyffwodkmyybcjl6at5qzti6oipnb7p2dib3mb4i2txa'
+          query: 'data[*].{ip: \"public-ip\"}'
+      - name: List the display name and shape of the instances in my compartment
         run: |
-          echo $SONAR_HOST_URL2
-          
-            
-#       - name: pc
-#         uses: oracle-actions/run-oci-cli-command@v1.1.1
-#         id: find-instances
-#         with:
-#           command: 'compute instance list-vnics --compartment-id ocid1.tenancy.oc1..aaaaaaaanoq6tcxxpyffwodkmyybcjl6at5qzti6oipnb7p2dib3mb4i2txa'
-#           query: 'data[*].{ip: \"public-ip\"}'
-#       - name: List the display name and shape of the instances in my compartment
-#         run: |
-#           SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000") && echo $SONAR_HOST_URL
-#       - name: ip
-#         run: |
-#             echo ${{ SONAR_HOST_URL }}
-#       - uses: sonarsource/sonarqube-scan-action@master          
-#         env:
-#            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#            SONAR_HOST_URL:  $SONAR_HOST_URL
+          SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000") && echo $SONAR_HOST_URL
+      - name: ip
+        run: |
+            echo ${{ SONAR_HOST_URL }}
+      - uses: sonarsource/sonarqube-scan-action@master          
+        env:
+           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+           SONAR_HOST_URL:  ${{ secrets.SONAR_TOKEN2 }}
