@@ -25,6 +25,10 @@ jobs:
         run: |
           SONAR_HOST_URL=http://168.75.70.245:9000/projects
           echo $SONAR_HOST_URL
+      - name: teste 2
+        run: |
+          echo $SONAR_HOST_URL
+          
             
 #       - name: pc
 #         uses: oracle-actions/run-oci-cli-command@v1.1.1
