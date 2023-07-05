@@ -25,7 +25,7 @@ jobs:
         id: find-compartment-id
         with:
           command: 'iam compartment list --compartment-id-in-subtree=true'
-          query: "data[?name=='testing'].id"
+          query: "data[?name=='instance-20230615-1213'].id"
 
       - name: Retrieve the display name and shape of the instances in my compartment
         uses: oracle-actions/run-oci-cli-command@v1.1.1
