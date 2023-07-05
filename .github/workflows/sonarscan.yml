@@ -2,7 +2,7 @@ name: SonarScan
 on:
   workflow_run:
     workflows: ["Build"]
-    types: [requested]
+    types: [completed]
     branches:
       - main
 jobs:
