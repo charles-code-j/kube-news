@@ -24,7 +24,7 @@ jobs:
         uses: oracle-actions/run-oci-cli-command@v1.1.1
         id: find-instances
         with:
-          command: 'compute instance list --compartment-id ${{ steps.find-compartment-id.outputs.raw_output }}'
+          command: 'compute instance list --instance-id ocid1.instance.oc1.sa-saopaulo-1.antxeljrnb76erycttiyh6dtx5drbhhvtaw7t7v4ixyj56ybpvjcqpc2ow5q
 
       - uses: sonarsource/sonarqube-scan-action@master
         env:
