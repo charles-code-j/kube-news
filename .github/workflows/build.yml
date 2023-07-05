@@ -30,10 +30,10 @@ jobs:
       - name: List the display name and shape of the instances in my compartment
         run: |
           SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000") && echo $SONAR_HOST_URL
-          gh secret set SONAR_HOST_URL2 --body "$SONAR_HOST_URL" 
+          gh secret set SONAR_HOST_URL --body "$SONAR_HOST_URL" 
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - uses: sonarsource/sonarqube-scan-action@master          
         env:
            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-           SONAR_HOST_URL:  ${{ secrets.SONAR_TOKEN2 }}
+           SONAR_HOST_URL:  ${{ secrets.SONAR_HOST_URL }}
