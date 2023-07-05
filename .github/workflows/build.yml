@@ -28,7 +28,7 @@ jobs:
           query: "data[?name=='testing'].id"
       - name: List the display name and shape of the instances in my compartment
         run: | 
-          oci compute instance list-vnics --instance-id ocid1.instance.oc1.sa-saopaulo-1.antxeljrnb76erycttiyh6dtx5drbhhvtaw7t7v4ixyj56ybpvjcqpc2ow5q
+          oci compute instance list-vnics --insance-id ocid1.instance.oc1.sa-saopaulo-1.antxeljrnb76erycttiyh6dtx5drbhhvtaw7t7v4ixyj56ybpvjcqpc2ow5q | jq -r '.data[]."public-ip"'
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
