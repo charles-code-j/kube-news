@@ -28,7 +28,7 @@ jobs:
           query: 'data[*].{ip: \"public-ip\"}'
       - name: List the display name and shape of the instances in my compartment
         run: |
-          url="$(${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]') && echo $url
+          url="$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]') && echo $url
     #  - uses: sonarsource/sonarqube-scan-action@master
      #   env:
       #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
