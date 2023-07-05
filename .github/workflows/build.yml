@@ -16,7 +16,6 @@ jobs:
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
       OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
-      SONAR_HOST_URL: ""
     steps:
       - uses: actions/checkout@v2
         with:
@@ -30,9 +29,10 @@ jobs:
       - name: List the display name and shape of the instances in my compartment
         run: |
           SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000") && echo $SONAR_HOST_URL
+      - uses: sonarsource/sonarqube-scan-action@master          
         env:
-          SONAR_HOST_URL: $SONAR_HOST_URL
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL:  $SONAR_HOST_URL
+           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+           SONAR_HOST_URL:  $SONAR_HOST_URL
+      - name: ip
+        run: |
+         echo $SONAR_HOST_URL
