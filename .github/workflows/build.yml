@@ -20,15 +20,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Retrieve the OCID of a named compartment in tenancy
+      - name: pc
         uses: oracle-actions/run-oci-cli-command@v1.1.1
-        id: find-compartment-id
+        id: find-instances
         with:
-          command: 'iam compartment list --compartment-id-in-subtree=true'
-          query: "data[?name=='instance-20230615-1213'].id"
+          command: 'compute instance list --compartment-id ocid1.tenancy.oc1..aaaaaaaanoq6tcxxpyffwodkmyybcjl6at5qzti6oipnb7p2dib3mb4i2txa'
+          query: 'data[*].{name: \"display-name\", shape: shape}'
       - name: List the display name and shape of the instances in my compartment
         run: |
-          echo ${{ steps.find-compartment-id.outputs.output }} | jq .
+          echo ${{ steps.find-instances.outputs.output }} | jq .
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
