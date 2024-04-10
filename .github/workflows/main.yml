@@ -22,13 +22,13 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           service_account: ${{ secrets.GCP_SA_EMAIL }}
           
-      - name: Setup GCP Service Account
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          version: 'latest'
-          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+      # - name: Setup GCP Service Account
+      #   uses: google-github-actions/setup-gcloud@v2
+      #   with:
+      #     version: 'latest'
+      #     service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+      #     service_account_key: ${{ secrets.GCP_SA_KEY }}
+      #     export_default_credentials: true
           
       - name: Configure Docker
         run: |
@@ -38,8 +38,9 @@ jobs:
         run: |
           gcloud run deploy helloworld \
           --region us-east1 \
-          --image nginx \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/image \
           --platform managed \
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }} \
-          --port 80
+          --port 8080 \
+          --set-secrets DATABASE_URL=${{ secrets.DATABASE_URL }}
