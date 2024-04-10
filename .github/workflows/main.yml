@@ -37,8 +37,9 @@ jobs:
       - name: Deploy
         run: |
           gcloud run deploy helloworld \
-          --region europe-west1 \
+          --region us-east1 \
           --image nginx \
           --platform managed \
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }}
+          --port 80
