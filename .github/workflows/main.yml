@@ -43,4 +43,4 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }} \
           --port 8080 \
-          --set-env-vars="DATABASE_URL=^mysql://adm:2Exasd-&,Z2'cWaE@35.196.24.141:3306/os3^"
+          --set-env-vars=DATABASE_URL=mysql://adm:2Exasd-&,Z2'cWaE@35.196.24.141:3306/os3
