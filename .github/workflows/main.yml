@@ -43,4 +43,4 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }} \
           --port 8080 \
-          --set-secrets DATABASE_URL=${{ secrets.DATABASE_URL }}
+          --set-secrets [DATABASE_URL=${{ secrets.DATABASE_URL }}]
