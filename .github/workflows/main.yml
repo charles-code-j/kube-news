@@ -41,5 +41,5 @@ jobs:
           --image nginx \
           --platform managed \
           --allow-unauthenticated \
-          --project ${{ secrets.GCP_PROJECT_ID }}
+          --project ${{ secrets.GCP_PROJECT_ID }} \
           --port 80
