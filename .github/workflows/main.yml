@@ -4,31 +4,35 @@ on:
   push:
     branches:
       - main
-
-
 jobs:
   build:
-    name: Build
+    name: Cloud Run Deployment
     runs-on: ubuntu-latest
-    env:
-      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
-      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
-      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
-      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
-      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Auth
+        uses: 'google-github-actions/auth@v2'
         with:
-          fetch-depth: 0
-      - name: pc
-        uses: oracle-actions/run-oci-cli-command@v1.1.1
-        id: find-instances
-        with:
-          command: 'compute instance list-vnics --compartment-id ${{ secrets.OCI_CLI_TENANCY }}'
-          query: 'data[*].{ip: \"public-ip\"}'
-      - name: List the display name and shape of the instances in my compartment
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - name: Configure Docker
         run: |
-          SONAR_HOST_URL=$(echo "http://$(echo ${{ steps.find-instances.outputs.output }} | jq -r '.[] | .[]'):9000")
-          gh secret set SONAR_HOST_URL --body "$SONAR_HOST_URL" 
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          gcloud auth configure-docker
+          
+      # - name: Build and Push Container
+      #   run: |-
+      #     docker build -t "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image" .
+      #     docker push "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image"
+      
+      - name: Deploy
+        run: |
+          gcloud run deploy backend \
+          --region us-east1 \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/image \
+          --platform managed \
+          --allow-unauthenticated \
+          --project ${{ secrets.GCP_PROJECT_ID }} \
+          --port 8080 \
+          --set-env-vars=DATABASE_URL="${{ secrets.PROVIDER_DB }}${{ secrets.USER_DB }}:${{secrets.PASSWORD_DB}}@{{ secrets.HOST_AND_DB }}",API_GRANT_TYPE=${{ secrets.API_GRANT_TYPE}},API_PASSWORD=${{ secrets.API_PASSWORD}},API_TOKEN=${{ secrets.API_TOKEN}},API_URL=${{ secrets.API_URL}},API_USERNAME=${{ secrets.API_USERNAME}},APP_HOST=${{ secrets.APP_HOST}},BCRYPT_COST_FACTOR=${{ secrets.BCRYPT_COST_FACTOR}},DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD}},ENV=${{ secrets.ENV}},GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME}},GCP_CLIENT_EMAIL=${{ secrets.GCP_CLIENT_EMAIL}},GCP_PRIVATE_KEY=${{ secrets.GCP_PRIVATE_KEY}},GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}},JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN}},JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY}},PIX_CONFIRMATION_URL=${{ secrets.PIX_CONFIRMATION_URL}},RAFFLE_METHOD_ONE=${{ secrets.RAFFLE_METHOD_ONE}},RAFFLE_METHOD_TWO=${{ secrets.RAFFLE_METHOD_TWO}},RAFFLE_METHOD_THREE=${{ secrets.RAFFLE_METHOD_THREE}},TOKEN_HEADER_KEY=${{ secrets.TOKEN_HEADER_KEY}}
