@@ -43,5 +43,4 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }} \
           --port 8080 \
-          --set-env-vars=DATABASE_URL="${{ secrets.PROVIDER_DB }}${{ secrets.USER_DB }}:${{secrets.PASSWORD_DB}}@{{ secrets.HOST_AND_DB }}", 
-          API_GRANT_TYPE=${{ secrets.PROVIDER_DB}}
+          --set-env-vars=DATABASE_URL="${{ secrets.PROVIDER_DB }}${{ secrets.USER_DB }}:${{secrets.PASSWORD_DB}}@{{ secrets.HOST_AND_DB }}", API_GRANT_TYPE=${{ secrets.PROVIDER_DB}}
