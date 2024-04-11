@@ -43,5 +43,4 @@ jobs:
           --allow-unauthenticated \
           --project ${{ secrets.GCP_PROJECT_ID }} \
           --port 8080 \
-          #--set-env-vars=DATABASE_URL="${{ secrets.PROVIDER_DB }}${{ secrets.USER_DB }}:2Ex-i7&Z2c/'WaE@${{ secrets.HOST_AND_DB }}"
-          --set-env-vars=DATABASE_URL=${{ secrets.DATABASE_URL }}
+          --set-env-vars=DATABASE_URL="${{ secrets.PROVIDER_DB }}${{ secrets.USER_DB }}:2Ex-i7&Z2c/'WaE@${{ secrets.HOST_AND_DB }}"
