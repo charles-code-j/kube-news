@@ -1,4 +1,4 @@
-name: Build
+name: CI/CD
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
         run: |
           gcloud auth configure-docker
           
-      #- name: Build and Push Container
-      #  run: |-
-      #     docker build -t "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image" .
-      #     docker push "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image"
+      - name: Build and Push Container
+        run: |-
+           docker build -t "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image" .
+           docker push "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image"
       
       - name: Deploy
         uses: 'google-github-actions/ssh-compute@v1'
@@ -33,4 +33,4 @@ jobs:
           zone: 'us-east1-b'
           project_id: 'os-backend-419705'
           ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: sudo docker run nginx
+          command: sudo docker rm -f $(docker ps --filter "NAME=app-backend-vm" -q) && sudo docker run --name app-backend-vm -d -p 8080:8080 -e DATABASE_URL=${{ secrets.DATABASE_URL}}, -e API_GRANT_TYPE=${{ secrets.API_GRANT_TYPE}}, -e API_PASSWORD=${{ secrets.API_PASSWORD}}, -e API_TOKEN=${{ secrets.API_TOKEN}}, -e API_URL=${{ secrets.API_URL}}, -e PORT=${{ secrets.PORT}} -e API_USERNAME=${{ secrets.API_USERNAME}}, -e APP_HOST=${{ secrets.APP_HOST}}, -e BCRYPT_COST_FACTOR=${{ secrets.BCRYPT_COST_FACTOR}}, -e DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD}}, -e ENV=${{ secrets.ENV}}, -e GCP_BUCKET_NAME=${{ secrets.GCP_BUCKET_NAME}}, -e GCP_CLIENT_EMAIL=${{ secrets.GCP_CLIENT_EMAIL}}, -e GCP_PRIVATE_KEY=${{ secrets.GCP_PRIVATE_KEY}}, -e GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID}}, -e JWT_EXPIRES_IN=${{ secrets.JWT_EXPIRES_IN}}, -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY}}, -e PIX_CONFIRMATION_URL=${{ secrets.PIX_CONFIRMATION_URL}}, -e RAFFLE_METHOD_ONE=${{ secrets.RAFFLE_METHOD_ONE}}, -e RAFFLE_METHOD_TWO=${{ secrets.RAFFLE_METHOD_TWO}}, -e RAFFLE_METHOD_THREE=${{ secrets.RAFFLE_METHOD_THREE}}, -e TOKEN_HEADER_KEY=${{ secrets.TOKEN_HEADER_KEY}} gcr.io/os-backend-419705/image:latest
