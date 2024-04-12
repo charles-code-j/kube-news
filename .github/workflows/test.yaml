@@ -21,10 +21,10 @@ jobs:
         run: |
           gcloud auth configure-docker
           
-      - name: Build and Push Container
-        run: |-
-           docker build -t "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image" .
-           docker push "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image"
+      # - name: Build and Push Container
+      #   run: |-
+      #      docker build -t "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image" .
+      #      docker push "gcr.io/${{ secrets.GCP_PROJECT_ID }}/image"
       
       - name: Deploy
         uses: 'google-github-actions/ssh-compute@v1'
