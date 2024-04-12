@@ -29,6 +29,7 @@ jobs:
       - name: Deploy
         uses: 'google-github-actions/ssh-compute@v1'
         with:
+          debug: true
           instance_name: 'instance-backend-prd'
           zone: 'us-east1-b'
           project_id: 'os-backend-419705'
