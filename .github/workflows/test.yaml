@@ -33,5 +33,4 @@ jobs:
           zone: 'us-east1-b'
           project_id: 'os-backend-419705'
           ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          user: 'devops_wemakers_bet'
-          command: docker run nginx
+          command: sudo usermod -aG docker $USER && docker run nginx
